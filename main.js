@@ -1,32 +1,40 @@
 const express = require('express') // import express
-const app = express()
+const app = express() // create express app
 const port = 3000 // port number
 const bodyParser = require('body-parser') // import body-parser
 const db = require(`./connect.js`);
 const response = require(`./response.js`);
 
-app.get('/home', (req, res) => { // get method
-    db.query('SELECT * FROM mahasiswa', (err, result) => {
-        // result from mysql
+// for parsing application/json
+app.use(bodyParser.json())
+app.get('/find', (req, res) => {
+    const sql = 'SELECT * FROM mahasiswa'
+    db.query(sql, (err, result) => {
         response(200, result, 'success', res)
     })
 })
-// for parsing application/json
-app.use(bodyParser.json())
-app.get('/', (req, res) => {
-    // query string
-    res.send(res)
-    console.log(req.query)
+// using params id
+app.get('/find/id/:id', (req, res) => {
+    const sql = `SELECT * FROM mahasiswa where id = ${req.params.id}`
+    db.query(sql, (err, result) => {
+        response(200, result, 'success', res)
+    })
 })
-app.post('/login', (req, res) => { // post method
-    // body
-    console.log(req.body)
-    res.send('Hello Login')
+// using query nama
+app.get('/find/nama', (req, res) => {
+    const sql = `SELECT * FROM mahasiswa where nama = '${req.query.nama}'`
+    db.query(sql, (err, result) => {
+        response(200, result, 'success', res)
+    })
 })
-app.delete('/', (req, res) => { // delete method
+app.post('/login/id/:id', (req, res) => {
+    const id = req.params.id
+    res.send(`Id yang diterima adalah ${id}`)
+})
+app.delete('/', (req, res) => {
     res.send('Hello delete!')
 })
-app.put('/', (req, res) => { // put method
+app.put('/', (req, res) => {
     res.send('Hello put!')
 })
 

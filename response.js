@@ -1,3 +1,4 @@
+// Description: Response format for all API
 const response = (statuscode, datas, message, res) => {
     res.status(statuscode).json({
         payload: {
