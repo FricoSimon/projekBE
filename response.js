@@ -1,18 +1,12 @@
 // Description: Response format for all API
-const response = (statuscode, datas, message, res) => {
+const response = (statuscode, data, message, res) => {
     res.status(statuscode).json({
         payload: {
             statuscode: statuscode,
-            datas: datas,
+            data: data,
             message: message
         },
-        pagination: {
-            prev: "",
-            next: "",
-            max: ""
-        },
-    }
-    )
+    })
 }
 
 module.exports = response;
