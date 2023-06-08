@@ -1,5 +1,17 @@
 // Description: Response format for all API
-const response = (statuscode, data, message, res) => {
+const responseGet = (page, size, statuscode, message, data, res) => {
+    res.status(statuscode).json({
+        payload: {
+            page: page,
+            size: size,
+            statuscode: statuscode,
+            message: message,
+            data: data
+        },
+    })
+}
+
+const responsePost = (statuscode, data, message, res) => {
     res.status(statuscode).json({
         payload: {
             statuscode: statuscode,
@@ -9,4 +21,4 @@ const response = (statuscode, data, message, res) => {
     })
 }
 
-module.exports = response;
+module.exports = { responseGet, responsePost };
