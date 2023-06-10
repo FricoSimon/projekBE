@@ -2,11 +2,17 @@ const express = require('express') // import express
 const app = express() // create express app
 const port = 3000 // port number
 const bodyParser = require('body-parser') // import body-parser
+const rateLimit = require('express-rate-limit') // import rate limiter
 const db = require(`./connect.js`);
 const { responseGet, responsePost } = require(`./response.js`);
 
-// for parsing application/json
-app.use(bodyParser.json())
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 10 // limit each IP to 10 requests per windowMs
+})
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(limiter) // apply rate limiter to all requests
 
 app.get('/find', (req, res) => {
     const page = req.query.page || 1
