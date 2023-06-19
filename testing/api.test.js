@@ -40,6 +40,42 @@ describe('GET /find/1', () => {
     });
 });
 
+describe('GET /find/name/Frico', () => {
+    it('Return mahasiswa by name', async () => {
+        const response = await request(app).get('/find/name/Frico');
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            payload: {
+                data: [
+                    { ID: 1, NIM: 1220028, Nama: "Frico", Angkatan: 2020, Jurusan: "SI" }
+                ],
+                message: "success",
+                page: 1,
+                size: 10,
+                statuscode: 200,
+            },
+        })
+    })
+})
+
+describe('POST /login', () => {
+    it('Return login success', async () => {
+        const response = await request(app)
+            .post('/login')
+            .send({
+                nim: 1220028, nama: "Frico"
+            });
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            payload: {
+                data: { nim: 1220028, nama: "Frico" },
+                message: "Login successfully",
+                statuscode: 200,
+            },
+        })
+    })
+})
+
 afterAll(() => {
     db.end();
 });
