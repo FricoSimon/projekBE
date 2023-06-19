@@ -82,7 +82,7 @@ describe('POST /input', () => {
             .post("/input")
             .send({
                 nim: 1220059,
-                nama: "Cyn",
+                nama: "Darryl",
                 angkatan: 2025,
                 jurusan: "OLB"
             });
@@ -91,12 +91,35 @@ describe('POST /input', () => {
             payload: {
                 data: {
                     nim: 1220059,
-                    nama: "Cyn",
+                    nama: "Darryl",
                     angkatan: 2025,
                     jurusan: "OLB"
                 },
                 statuscode: 200,
                 message: "Data received successfully"
+            }
+        })
+    })
+})
+
+describe('PUT /update', () => {
+    it('Return update mahasiswa', async () => {
+        const response = await request(app)
+            .put('/update')
+            .send({
+                nim: 1220059,
+                nama: "Darryl",
+                angkatan: 2027,
+                jurusan: "IFs"
+            })
+        expect(response.status).toBe(200)
+        expect(response.body).toEqual({
+            payload: {
+                data: {
+                    changedRows: 1
+                },
+                statuscode: 200,
+                message: "updated successfully"
             }
         })
     })
