@@ -55,7 +55,11 @@ app.get('/find/:id', async (req, res) => {
             })
         })
 
-        responseGet(page, size, 200, 'success', result, res)
+        if (result.length === 0) {
+            responsePost(404, null, 'User not found', res);
+        } else {
+            responseGet(page, size, 200, 'success', result, res)
+        }
 
     } catch (err) {
         console.error(err.message);
@@ -80,7 +84,11 @@ app.get('/find/name/:name', async (req, res) => {
             })
         })
 
-        responseGet(page, size, 200, 'success', result, res)
+        if (result.length === 0) {
+            responsePost(404, null, 'User not found', res);
+        } else {
+            responseGet(page, size, 200, 'success', result, res)
+        }
 
     } catch (err) {
         console.error(err.message);
@@ -100,11 +108,13 @@ app.post('/login', async (req, res) => {
                 resolve(result)
             });
         })
+
         if (result.length === 0) {
             responsePost(404, null, 'User not found', res);
         } else {
             responsePost(200, { nim, nama }, 'Login successfully', res);
         }
+
     } catch (err) {
         console.error(err.message);
         responsePost(500, null, 'Login error', res);
@@ -138,15 +148,12 @@ app.post('/input', async (req, res) => {
                     console.error(err.message);
                     responsePost(500, 'Input error', 'failed', res);
                 } else if (result.affectedRows && result.affectedRows > 0) {
-                    responsePost(
-                        200,
-                        { Id: result.insertId, nim, nama, angkatan, jurusan },
-                        'Data received successfully',
-                        res
-                    );
+                    responsePost(200, { Id: result.insertId, nim, nama, angkatan, jurusan },
+                        'Data received successfully', res);
                 }
             });
         }
+
     } catch (err) {
         console.error(err.message);
         responsePost(500, 'Input error', 'failed', res);
@@ -165,11 +172,13 @@ app.put('/update', async (req, res) => {
                 resolve(result)
             })
         })
+
         if (result?.affectedRows) {
             responsePost(200, { changedRows: result.changedRows }, 'updated successfully', res);
         } else {
             responsePost(404, 'user not found', 'failed', res);
         }
+
     } catch (err) {
         console.error(err.message);
         responsePost(500, 'update error', 'failed', res)
@@ -188,11 +197,13 @@ app.delete('/delete', async (req, res) => {
                 resolve(result)
             })
         })
+
         if (result?.affectedRows) {
             responsePost(200, { affectedRows: result.affectedRows }, 'deleted successfully', res)
         } else {
             responsePost(404, 'user not found', 'failed', res)
         }
+
     } catch (err) {
         console.error(err.message);
         responsePost(500, 'delete error', 'failed', res)
