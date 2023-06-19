@@ -59,7 +59,7 @@ describe('GET /find/name/Frico', () => {
 })
 
 describe('POST /login', () => {
-    it('Return login success', async () => {
+    it('Return login successfull', async () => {
         const response = await request(app)
             .post('/login')
             .send({
@@ -70,6 +70,50 @@ describe('POST /login', () => {
             payload: {
                 data: { nim: 1220028, nama: "Frico" },
                 message: "Login successfully",
+                statuscode: 200,
+            },
+        })
+    })
+})
+
+describe('POST /input', () => {
+    it('Return Data received successfully', async () => {
+        const response = await request(app)
+            .post("/input")
+            .send({
+                nim: 1220059,
+                nama: "Cyn",
+                angkatan: 2025,
+                jurusan: "OLB"
+            });
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            payload: {
+                data: {
+                    nim: 1220059,
+                    nama: "Cyn",
+                    angkatan: 2025,
+                    jurusan: "OLB"
+                },
+                statuscode: 200,
+                message: "Data received successfully"
+            }
+        })
+    })
+})
+
+describe('DELETE /delete', () => {
+    it('Return delete successfull', async () => {
+        const response = await request(app)
+            .delete('/delete')
+            .send({
+                nim: 1220059
+            });
+        expect(response.status).toBe(200)
+        expect(response.body).toEqual({
+            payload: {
+                data: { affectedRows: 1 },
+                message: "deleted successfully",
                 statuscode: 200,
             },
         })
