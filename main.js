@@ -148,7 +148,7 @@ app.post('/input', async (req, res) => {
                     console.error(err.message);
                     responsePost(500, 'Input error', 'failed', res);
                 } else if (result.affectedRows && result.affectedRows > 0) {
-                    responsePost(200, { Id: result.insertId, nim, nama, angkatan, jurusan },
+                    responsePost(200, { nim, nama, angkatan, jurusan },
                         'Data received successfully', res);
                 }
             });
